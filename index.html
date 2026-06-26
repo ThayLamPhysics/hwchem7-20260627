@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Khám Phá Thế Giới Nguyên Tử - Thầy Lâm</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- MathJax for Formulas (CommonHTML configuration) -->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            },
+            chtml: {
+                scale: 1,
+                displayAlign: 'center'
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Thêm Google Fonts cho chữ viết tay -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
+
+    <style>
+        /* CSS Variables cho Theme Studygram */
+        :root {
+            --color-pink: #fbcfe8; /* pastel pink */
+            --color-yellow: #fdf6e3; /* pastel yellow */
+            --color-blue: #bfdbfe; /* pastel blue */
+            --color-ink: #334155; /* dark slate */
+            --color-paper: #fbfbf9; /* off-white paper */
+        }
+
+        body {
+            font-family: 'Patrick Hand', cursive; /* Chữ viết tay cho văn bản */
+            background-color: var(--color-paper);
+            background-image: radial-gradient(#cbd5e1 1.5px, transparent 1.5px);
+            background-size: 25px 25px; /* Giấy caro chấm (Dot grid) */
+            color: var(--color-ink);
+            font-size: 1.15rem;
+            overflow-x: hidden;
+        }
+
+        /* Phông chữ cho Tiêu đề */
+        h1, h2, h3, .font-caveat {
+            font-family: 'Patrick Hand', cursive;
+            letter-spacing: 1px;
+        }
+
+        /* --- NÚT BẤM (Dạng nhãn dán / sticker) --- */
+        .btn-primary {
+            border-radius: 8px;
+            background-color: var(--color-pink);
+            color: #1e293b;
+            font-family: 'Patrick Hand', cursive;
+            font-size: 1.8rem;
+            font-weight: bold;
+            padding: 0.5rem 2rem;
+            transition: all 0.2s ease;
+            box-shadow: 4px 4px 0px #cbd5e1;
+            border: 2px solid #94a3b8;
+            display: inline-block;
+            cursor: pointer;
+            transform: rotate(-2deg);
+        }
+        .btn-primary:hover {
+            transform: rotate(0deg) scale(1.05);
+            box-shadow: 6px 6px 0px #cbd5e1;
+            background-color: #f9a8d4;
+        }
+
+        .btn-secondary {
+            border-radius: 8px;
+            background-color: #bbf7d0; /* xanh mint nhạt */
+            color: #1e293b;
+            font-family: 'Patrick Hand', cursive;
+            font-weight: 600;
+            font-size: 1.1rem;
+            padding: 0.4rem 1.5rem;
+            transition: all 0.2s ease;
+            box-shadow: 3px 3px 0px #cbd5e1;
+            border: 2px solid #94a3b8;
+            cursor: pointer;
+        }
+        .btn-secondary:hover {
+            background-color: #86efac;
+            transform: translateY(-2px);
+            box-shadow: 4px 5px 0px #cbd5e1;
+        }
+
+        /* --- HIỆU ỨNG TRANG MỞ ĐẦU --- */
+        #cover-page {
+            transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+            background-color: var(--color-paper);
+            background-image: radial-gradient(#cbd5e1 1.5px, transparent 1.5px);
+            background-size: 25px 25px;
+        }
+        .slide-up-fade {
+            transform: translateY(-100%);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* --- MENU ĐIỀU HƯỚNG --- */
+        .active-tab {
+            background: linear-gradient(to top, #fbcfe8 35%, transparent 35%); /* Pink highlighter */
+            color: #0f172a !important;
+            font-weight: bold;
+        }
+        .active-mobile-tab {
+            background-color: #fbcfe8 !important;
+            color: #0f172a !important;
+            font-weight: bold;
+            border-left: 4px dashed #f472b6;
+        }
+        .-translate-x-full {
+            transform: translateX(-100%);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.4s ease-in-out;
+        }
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- CÁC PHẦN TỬ STUDYGRAM --- */
+        .paper-card {
+            background-color: #ffffff;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            box-shadow: 6px 6px 0px #e2e8f0; /* Bóng đổ cứng tạo cảm giác doodle */
+            position: relative;
+        }
+        
+        /* Hiệu ứng băng dính washi tape */
+        .washi-tape {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%) rotate(-2deg);
+            width: 100px;
+            height: 28px;
+            background-color: rgba(253, 230, 138, 0.85); /* vàng pastel mờ */
+            border-left: 2px dashed rgba(0,0,0,0.1);
+            border-right: 2px dashed rgba(0,0,0,0.1);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            z-index: 10;
+        }
+        
+        .washi-tape.blue { background-color: rgba(191, 219, 254, 0.85); transform: translateX(-50%) rotate(2deg); }
+        .washi-tape.pink { background-color: rgba(251, 207, 232, 0.85); transform: translateX(-50%) rotate(-1deg); }
+        .washi-tape.green { background-color: rgba(187, 247, 208, 0.85); transform: translateX(-50%) rotate(3deg); }
+
+        .sticky-note {
+            background-color: #fef3c7; /* Vàng nhạt */
+            border: 1px solid #fde68a;
+            box-shadow: 3px 4px 8px rgba(0,0,0,0.08);
+            padding: 1rem;
+            transform: rotate(-1deg);
+            border-bottom-right-radius: 20px 5px; /* Giấy hơi cong lên */
+            position: relative;
+        }
+        
+        .sticky-note.pink {
+            background-color: #fce7f3;
+            border-color: #fbcfe8;
+            transform: rotate(1deg);
+        }
+
+        /* Bút highlight */
+        .highlighter-yellow {
+            background: linear-gradient(to top, #fef08a 40%, transparent 40%);
+            padding: 0 6px;
+        }
+        
+        .highlighter-pink {
+            background: linear-gradient(to top, #fbcfe8 40%, transparent 40%);
+            padding: 0 6px;
+        }
+
+        /* CSS cho các mô phỏng SVG */
+        .svg-container {
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border-radius: 1rem;
+            box-shadow: 4px 4px 0px #cbd5e1;
+            border: 2px solid #e2e8f0;
+            position: relative;
+        }
+    </style>
+</head>
+<body class="relative min-h-screen flex flex-col">
+
+    <!-- TRANG MỞ ĐẦU (COVER PAGE) -->
+    <div id="cover-page" class="fixed inset-0 z-50 flex flex-col justify-center items-center text-center p-6">
+        <div class="max-w-2xl bg-white/95 backdrop-blur-sm p-10 rounded-2xl border-2 border-slate-300 relative" style="box-shadow: 8px 8px 0px #cbd5e1;">
+            <div class="washi-tape blue"></div>
+            <div class="w-24 h-24 bg-pink-100 rounded-full flex items-center justify-center mx-auto mb-6 border-2 border-slate-400 transform rotate-6 shadow-sm">
+                <i class="fa-solid fa-flask text-4xl text-slate-700"></i>
+            </div>
+            <h2 class="text-3xl text-slate-500 font-caveat mb-2 font-bold">Hóa Học Lớp 7</h2>
+            <h1 class="text-5xl md:text-6xl text-slate-800 mb-6 leading-tight font-caveat">
+                <span class="highlighter-yellow">Khám Phá Thế Giới Hạt Cát Vũ Trụ</span>
+            </h1>
+            <p class="text-xl text-slate-600 mb-2">Chủ đề: Nguyên tử, Hạt nhân nguyên tử, Cấu tạo vỏ</p>
+            <p class="text-lg text-slate-500 mb-8">Giáo viên hướng dẫn: Thầy Lâm</p>
+            
+            <button onclick="startLearning()" class="btn-primary">
+                Bắt đầu học thôii <i class="fa-solid fa-pen ml-2 text-xl"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- NỘI DUNG CHÍNH (Bên dưới trang mở đầu) -->
+    
+    <!-- THANH ĐIỀU HƯỚNG (NAVIGATION) -->
+    <nav class="bg-white/90 backdrop-blur-md sticky top-0 z-40 border-b-2 border-slate-200 shadow-sm">
+        <!-- Header cho Mobile & Nút Hamburger -->
+        <div class="flex justify-between items-center p-4 lg:px-8">
+            <div class="flex items-center gap-2 text-slate-700 font-caveat font-bold text-3xl">
+                <i class="fa-solid fa-book-open text-pink-400 text-xl"></i> Vở Ghi Hóa Học
+            </div>
+            <!-- Nút hamburger chỉ hiện trên màn hình nhỏ -->
+            <button id="hamburger-button" class="text-slate-600 hover:text-pink-500 focus:outline-none lg:hidden text-2xl">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+
+        <!-- Các tab ngang (Chỉ hiện trên màn hình lớn lg) -->
+        <div class="hidden lg:flex justify-center space-x-6 p-2">
+            <button onclick="switchTab('intro')" data-tab="intro" class="desktop-tab px-3 py-1 text-slate-600 hover:text-slate-900 transition-colors active-tab text-xl">Giới thiệu</button>
+            <button onclick="switchTab('tab1')" data-tab="tab1" class="desktop-tab px-3 py-1 text-slate-600 hover:text-slate-900 transition-colors text-xl">1. Nguyên tử</button>
+            <button onclick="switchTab('tab2')" data-tab="tab2" class="desktop-tab px-3 py-1 text-slate-600 hover:text-slate-900 transition-colors text-xl">2. Hạt nhân</button>
+            <button onclick="switchTab('tab3')" data-tab="tab3" class="desktop-tab px-3 py-1 text-slate-600 hover:text-slate-900 transition-colors text-xl">3. Cấu tạo vỏ</button>
+            <button onclick="switchTab('test')" data-tab="test" class="desktop-tab px-3 py-1 text-slate-600 hover:text-slate-900 transition-colors text-xl"><i class="fa-solid fa-pencil mr-1"></i> Kiểm tra</button>
+        </div>
+    </nav>
+
+    <!-- MENU DI ĐỘNG (SLIDEBAR) -->
+    <div id="mobile-menu" class="fixed inset-y-0 left-0 w-64 bg-[#fbfbf9] border-r-2 border-slate-200 shadow-2xl z-50 transform -translate-x-full transition-transform duration-300 ease-in-out lg:hidden flex flex-col">
+        <div class="flex justify-between items-center p-4 border-b-2 border-slate-200">
+            <span class="font-bold font-caveat text-3xl text-slate-700">Mục lục</span>
+            <button id="close-menu-button" class="text-slate-500 hover:text-pink-500 text-2xl">
+                <i class="fa-solid fa-times"></i>
+            </button>
+        </div>
+        <div class="flex flex-col p-4 space-y-2 overflow-y-auto">
+            <!-- Nút mobile: áp dụng active-mobile-tab -->
+            <button onclick="switchTab('intro')" data-tab="intro" class="mobile-tab w-full text-left px-4 py-2 text-slate-600 hover:bg-slate-100 rounded-md active-mobile-tab transition-colors text-xl">Giới thiệu</button>
+            <button onclick="switchTab('tab1')" data-tab="tab1" class="mobile-tab w-full text-left px-4 py-2 text-slate-600 hover:bg-slate-100 rounded-md transition-colors text-xl">1. Khái niệm Nguyên tử</button>
+            <button onclick="switchTab('tab2')" data-tab="tab2" class="mobile-tab w-full text-left px-4 py-2 text-slate-600 hover:bg-slate-100 rounded-md transition-colors text-xl">2. Hạt nhân nguyên tử</button>
+            <button onclick="switchTab('tab3')" data-tab="tab3" class="mobile-tab w-full text-left px-4 py-2 text-slate-600 hover:bg-slate-100 rounded-md transition-colors text-xl">3. Cấu tạo vỏ nguyên tử</button>
+            <button onclick="switchTab('test')" data-tab="test" class="mobile-tab w-full text-left px-4 py-2 text-slate-700 font-semibold hover:bg-pink-50 rounded-md transition-colors mt-4 border-2 border-pink-200 text-xl"><i class="fa-solid fa-pencil mr-2 text-pink-400"></i> Làm bài kiểm tra</button>
+        </div>
+    </div>
+    <!-- Lớp phủ mờ khi mở menu di động -->
+    <div id="mobile-overlay" class="fixed inset-0 bg-slate-800/40 z-40 hidden lg:hidden backdrop-blur-sm"></div>
+
+    <!-- KHU VỰC NỘI DUNG CHÍNH -->
+    <main class="flex-grow container mx-auto px-4 py-8 max-w-4xl">
+        
+        <!-- Tab Giới thiệu -->
+        <div id="intro" class="tab-content active">
+            <div class="text-center mb-8">
+                <h2 class="text-5xl font-bold text-slate-800 font-caveat inline-block transform -rotate-2">
+                    <span class="highlighter-pink">Lời Mở Đầu</span>
+                </h2>
+            </div>
+            
+            <div class="paper-card p-6 md:p-10 mb-8">
+                <div class="washi-tape pink"></div>
+                <div class="flex flex-col gap-6 items-start">
+                    <div class="w-full">
+                        <p class="text-xl leading-relaxed mb-6 text-slate-700">
+                            Chào các em! Thầy là <span class="font-bold font-caveat text-2xl">Thầy Lâm</span>. Rất vui được đồng hành cùng các em trong chuyến phiêu lưu hôm nay. Cùng mở vở ra ghi chép nhé!
+                        </p>
+                        
+                        <div class="sticky-note text-slate-700 text-lg leading-relaxed relative my-6">
+                            <i class="fa-solid fa-thumbtack text-red-400 absolute -top-3 left-1/2 transform -translate-x-1/2 text-2xl drop-shadow-md"></i>
+                            <h4 class="font-caveat text-2xl font-bold mb-2 text-center text-slate-800">Câu chuyện quả táo 🍎</h4>
+                            <p class="pt-2">Ngày xửa ngày xưa, ở Hy Lạp cổ đại, có một nhà hiền triết tên là Democritus. Một hôm, ông cầm một quả táo trên tay và tự hỏi: "Nếu ta cắt đôi quả táo này, rồi lại lấy một nửa cắt đôi tiếp... Cứ cắt, cắt mãi, cho đến lúc con dao sắc nhất cũng không thể chia nhỏ được phần tử cuối cùng nữa. Thì phần tử không-thể-cắt-được đó là gì?"</p>
+                            <p class="mt-3">Ông gọi hạt nhỏ bé, không thể chia cắt đó là <strong class="text-slate-800 bg-yellow-200 px-1 rounded transform -rotate-1 inline-block">"A-tomos"</strong> (trong tiếng Hy Lạp nghĩa là không thể chia cắt). Và đó, các em ạ, chính là viên gạch nền móng đầu tiên cho bài học về <strong>Nguyên tử</strong> của chúng ta ngày hôm nay!</p>
+                        </div>
+                        
+                        <p class="text-xl leading-relaxed text-slate-700 mt-6 text-center">
+                            Hãy nhấn vào các tab bên trên (hoặc menu bên cạnh) để cùng thầy soi chiếc kính lúp ma thuật, nhìn sâu vào bên trong những vật chất quanh ta nhé!
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab 1: Nguyên tử -->
+        <div id="tab1" class="tab-content">
+            <h2 class="text-4xl font-bold text-slate-800 mb-8 font-caveat inline-block">
+                <span class="highlighter-yellow">1. Nguyên tử là gì?</span>
+            </h2>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center mb-8">
+                <div class="paper-card p-6 md:p-8">
+                    <div class="washi-tape"></div>
+                    <h3 class="text-3xl font-bold text-slate-700 mb-4 font-caveat"><i class="fa-solid fa-highlighter text-pink-400 mr-2"></i> Tóm tắt kiến thức</h3>
+                    <ul class="list-none pl-2 space-y-3 text-slate-700 text-lg">
+                        <li class="relative pl-6 before:content-['*'] before:absolute before:left-0 before:text-xl before:text-pink-500 before:font-bold"><strong>Nguyên tử</strong> là những hạt vô cùng nhỏ, trung hòa về điện, tạo nên mọi chất.</li>
+                        <li class="relative pl-6 before:content-['*'] before:absolute before:left-0 before:text-xl before:text-pink-500 before:font-bold">Chúng nhỏ đến mức: một giọt nước chứa khoảng $1,67 \times 10^{21}$ nguyên tử!</li>
+                        <li class="relative pl-6 before:content-['*'] before:absolute before:left-0 before:text-xl before:text-pink-500 before:font-bold">Dù gọi là "không thể chia cắt" thời cổ đại, nhưng ngày nay ta biết nguyên tử được cấu tạo từ các hạt nhỏ hơn.</li>
+                    </ul>
+                    <div class="mt-6 sticky-note pink">
+                        <p class="font-caveat font-bold text-2xl text-slate-800 mb-1">Ví dụ của Thầy Lâm:</p>
+                        <p class="text-md">Hãy tưởng tượng nguyên tử giống như những viên gạch LEGO cực nhỏ. Hàng tỷ viên gạch xếp lại mới tạo thành một sợi tóc của em!</p>
+                    </div>
+                </div>
+
+                <div class="paper-card p-4">
+                    <div class="washi-tape green" style="top: -15px; right: -10px; left: auto; transform: rotate(45deg); width: 60px;"></div>
+                    <h3 class="text-center font-caveat text-2xl font-bold text-slate-600 mb-3">Sự chuyển động của nguyên tử</h3>
+                    <div class="svg-container relative" id="sim-container-1">
+                        <svg id="atom-simulation" viewBox="0 0 400 300" width="100%" height="300" class="rounded-xl">
+                            <rect width="100%" height="100%" fill="#f8fafc" rx="15"/>
+                            <text x="200" y="30" font-family="'Patrick Hand', cursive" font-size="16" fill="#64748b" text-anchor="middle">Bên trong một giọt nước phóng to</text>
+                            <!-- Các hạt sẽ được tạo bằng JS -->
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab 2: Hạt nhân nguyên tử -->
+        <div id="tab2" class="tab-content">
+            <h2 class="text-4xl font-bold text-slate-800 mb-8 font-caveat inline-block">
+                <span class="highlighter-yellow">2. Hạt nhân nguyên tử</span>
+            </h2>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center mb-8">
+                <div class="paper-card p-6 md:p-8 order-2 lg:order-1">
+                    <div class="washi-tape blue"></div>
+                    <h3 class="text-3xl font-bold text-slate-700 mb-4 font-caveat"><i class="fa-solid fa-highlighter text-blue-400 mr-2"></i> Tóm tắt kiến thức</h3>
+                    <p class="text-slate-700 mb-3 text-lg">Hạt nhân nằm ở tâm nguyên tử, kích thước cực kỳ nhỏ bé so với toàn bộ nguyên tử nhưng lại chứa gần như toàn bộ khối lượng.</p>
+                    <ul class="list-none pl-2 space-y-3 text-slate-700 text-lg mb-6">
+                        <li class="relative pl-6 before:content-['->'] before:absolute before:left-0 before:text-blue-500 before:font-bold">Gồm 2 loại hạt: <br>
+                            <span class="text-red-500 font-bold border-b-2 border-red-200">Proton (p)</span> mang điện tích dương (+1).<br>
+                            <span class="text-slate-500 font-bold border-b-2 border-slate-300">Neutron (n)</span> không mang điện.
+                        </li>
+                        <li class="relative pl-6 before:content-['->'] before:absolute before:left-0 before:text-blue-500 before:font-bold">Do đó, Hạt nhân mang điện tích dương.</li>
+                    </ul>
+                    <div class="border-2 border-dashed border-slate-300 p-4 rounded-xl text-center bg-white relative">
+                        <span class="absolute -top-3 left-4 bg-white px-2 font-caveat font-bold text-xl text-pink-500">Công thức</span>
+                        <p class="mb-2 text-slate-600">Số khối (A) bằng tổng số hạt proton (Z) và neutron (N):</p>
+                        <div class="text-center text-2xl font-bold">
+                            $$ A = Z + N $$
+                        </div>
+                    </div>
+                </div>
+
+                <div class="paper-card p-4 order-1 lg:order-2">
+                    <div class="washi-tape pink" style="top: -15px; left: -10px; transform: rotate(-45deg); width: 60px;"></div>
+                    <h3 class="text-center font-caveat text-2xl font-bold text-slate-600 mb-3">Cấu trúc hạt nhân</h3>
+                    <div class="svg-container">
+                        <svg id="nucleus-simulation" viewBox="0 0 400 300" width="100%" height="300" class="rounded-xl">
+                            <rect width="100%" height="100%" fill="#1e293b" rx="15"/>
+                            <text x="200" y="280" font-family="'Patrick Hand', cursive" font-size="16" fill="#cbd5e1" text-anchor="middle">Đỏ = Proton (+), Xám = Neutron (0)</text>
+                            <g id="nucleus-group" transform="translate(200, 150)">
+                                <!-- Các hạt nhân sẽ được tạo và rung động bằng JS -->
+                            </g>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="sticky-note w-full mt-6 text-slate-700 text-lg">
+                <strong class="font-caveat text-2xl">Thầy Lâm kể chuyện:</strong> Nếu ta phóng to nguyên tử to bằng một sân vận động bóng đá khổng lồ, thì hạt nhân nguyên tử nằm ở giữa sân chỉ bé bằng... một hạt đậu xanh! Khó tin đúng không nào? 😲
+            </div>
+        </div>
+
+        <!-- Tab 3: Cấu tạo vỏ nguyên tử -->
+        <div id="tab3" class="tab-content">
+            <h2 class="text-4xl font-bold text-slate-800 mb-8 font-caveat inline-block">
+                <span class="highlighter-yellow">3. Cấu tạo vỏ nguyên tử</span>
+            </h2>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center mb-8">
+                <div class="paper-card p-6 md:p-8">
+                    <div class="washi-tape green"></div>
+                    <h3 class="text-3xl font-bold text-slate-700 mb-4 font-caveat"><i class="fa-solid fa-highlighter text-green-400 mr-2"></i> Tóm tắt kiến thức</h3>
+                    <p class="text-slate-700 mb-3 text-lg">Phần không gian rộng lớn bao quanh hạt nhân chính là lớp vỏ nguyên tử.</p>
+                    <ul class="list-none pl-2 space-y-3 text-slate-700 text-lg mb-4">
+                        <li class="relative pl-6 before:content-['>'] before:absolute before:left-0 before:text-green-500 before:font-bold">Vỏ tạo bởi các hạt <span class="text-blue-500 font-bold underline decoration-wavy decoration-blue-300">Electron (e)</span> mang điện tích âm (-1).</li>
+                        <li class="relative pl-6 before:content-['>'] before:absolute before:left-0 before:text-green-500 before:font-bold">Khối lượng electron cực kỳ nhỏ, gần như không đáng kể ($m_e \approx \frac{1}{1836} m_p$).</li>
+                        <li class="relative pl-6 before:content-['>'] before:absolute before:left-0 before:text-green-500 before:font-bold">Các electron chuyển động rất nhanh xung quanh hạt nhân, xếp thành từng lớp.</li>
+                        <li class="relative pl-6 before:content-['>'] before:absolute before:left-0 before:text-green-500 before:font-bold">Nguyên tử trung hòa về điện nên: <strong class="bg-pink-100 px-1 rounded">Số p = Số e</strong>.</li>
+                    </ul>
+                </div>
+
+                <div class="paper-card p-4">
+                    <div class="washi-tape"></div>
+                    <h3 class="text-center font-caveat text-2xl font-bold text-slate-600 mb-3">Mô hình hành tinh nguyên tử</h3>
+                    <div class="svg-container">
+                        <svg id="orbit-simulation" viewBox="0 0 400 300" width="100%" height="300" class="rounded-xl">
+                            <rect width="100%" height="100%" fill="#0f172a" rx="15"/>
+                            
+                            <!-- Hạt nhân trung tâm -->
+                            <circle cx="200" cy="150" r="10" fill="#fbbf24" filter="drop-shadow(0 0 8px #fbbf24)"/>
+                            <text x="200" y="154" font-family="'Patrick Hand'" font-size="12" fill="#000" font-weight="bold" text-anchor="middle">+</text>
+
+                            <!-- Các quỹ đạo -->
+                            <ellipse cx="200" cy="150" rx="60" ry="120" fill="none" stroke="#475569" stroke-width="1.5" stroke-dasharray="4" transform="rotate(30 200 150)"/>
+                            <ellipse cx="200" cy="150" rx="60" ry="120" fill="none" stroke="#475569" stroke-width="1.5" stroke-dasharray="4" transform="rotate(-30 200 150)"/>
+                            <ellipse cx="200" cy="150" rx="60" ry="120" fill="none" stroke="#475569" stroke-width="1.5" stroke-dasharray="4" transform="rotate(90 200 150)"/>
+
+                            <!-- Các electron sẽ được animate bằng JS -->
+                            <g id="electron-group"></g>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="sticky-note pink w-full mt-8 shadow-md">
+                <i class="fa-solid fa-lightbulb text-yellow-400 absolute -top-4 -left-4 text-3xl drop-shadow"></i>
+                <h4 class="text-2xl font-bold text-slate-800 font-caveat mb-2">Có thể em chưa biết?</h4>
+                <p class="text-slate-700 leading-relaxed text-lg">Nguyên tử thực chất <strong class="text-pink-600 underline decoration-wavy">trống rỗng đến 99,99999%</strong>! Nếu chúng ta loại bỏ toàn bộ khoảng không gian rỗng bên trong các nguyên tử của tất cả con người trên Trái Đất, toàn bộ nhân loại sẽ bị ép lại vừa vặn trong kích thước của <strong>chỉ một viên đường nhỏ</strong> mà thôi! 🤯</p>
+            </div>
+
+            <div class="text-center mt-12">
+                <button onclick="switchTab('test')" class="btn-primary">
+                    Đã hiểu bài! Tới phần Kiểm Tra <i class="fa-solid fa-arrow-right ml-1"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Tab Kiểm tra -->
+        <div id="test" class="tab-content">
+            <h2 class="text-4xl font-bold text-slate-800 mb-6 font-caveat inline-block">
+                <span class="highlighter-pink">Thử Tài Kiến Thức</span>
+            </h2>
+            <p class="text-slate-700 text-lg mb-6">Sau khi nghe thầy giảng xong, các em hãy làm bài tập vận dụng nhỏ dưới đây để củng cố kiến thức nhé. Nhớ đọc kỹ đề nha! ✨</p>
+            
+            <div class="paper-card p-2 overflow-hidden" style="height: 600px;">
+                <div class="washi-tape blue"></div>
+                <!-- Iframe nhúng bài test -->
+                <iframe src="test.html" class="w-full h-full border-2 border-dashed border-slate-300 rounded-lg bg-white" title="Bài kiểm tra Hóa Học 7">
+                    <p>Trình duyệt của bạn không hỗ trợ iframe. Vui lòng mở trực tiếp link bài kiểm tra.</p>
+                </iframe>
+            </div>
+            
+            <div class="mt-6 flex justify-end">
+                 <button class="btn-secondary" onclick="alert('Tính năng nộp bài lên hệ thống đang được cập nhật. Cảm ơn em!')">
+                    Nộp bài cho thầy <i class="fa-solid fa-paper-plane ml-1"></i>
+                 </button>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- JAVASCRIPT CHO LOGIC GIAO DIỆN VÀ ANIMATION SVG -->
+    <script>
+        /* --- 1. HIỆU ỨNG TRANG MỞ ĐẦU --- */
+        function startLearning() {
+            const cover = document.getElementById('cover-page');
+            cover.classList.add('slide-up-fade');
+            // Init animations khi bắt đầu vào học
+            initSimulations();
+        }
+
+        /* --- 2. LOGIC MENU DI ĐỘNG & TAB --- */
+        const hamburgerBtn = document.getElementById('hamburger-button');
+        const closeMenuBtn = document.getElementById('close-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileOverlay = document.getElementById('mobile-overlay');
+
+        function toggleMobileMenu() {
+            const isClosed = mobileMenu.classList.contains('-translate-x-full');
+            if (isClosed) {
+                mobileMenu.classList.remove('-translate-x-full');
+                mobileOverlay.classList.remove('hidden');
+            } else {
+                mobileMenu.classList.add('-translate-x-full');
+                mobileOverlay.classList.add('hidden');
+            }
+        }
+
+        hamburgerBtn.addEventListener('click', toggleMobileMenu);
+        closeMenuBtn.addEventListener('click', toggleMobileMenu);
+        mobileOverlay.addEventListener('click', toggleMobileMenu);
+
+        function switchTab(tabId) {
+            // 1. Ẩn tất cả nội dung tab
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            // Hiện tab được chọn
+            document.getElementById(tabId).classList.add('active');
+
+            // 2. Cập nhật class "active" cho nút Desktop
+            document.querySelectorAll('.desktop-tab').forEach(btn => {
+                btn.classList.remove('active-tab');
+                if (btn.getAttribute('data-tab') === tabId) {
+                    btn.classList.add('active-tab');
+                }
+            });
+
+            // 3. Cập nhật class "active" cho nút Mobile
+            document.querySelectorAll('.mobile-tab').forEach(btn => {
+                btn.classList.remove('active-mobile-tab');
+                if (btn.getAttribute('data-tab') === tabId) {
+                    btn.classList.add('active-mobile-tab');
+                }
+            });
+
+            // 4. Đóng menu mobile nếu đang mở
+            if (!mobileMenu.classList.contains('-translate-x-full')) {
+                toggleMobileMenu();
+            }
+        }
+
+        /* --- 3. LOGIC SVG ANIMATIONS --- */
+        let animationId;
+
+        // Trạng thái các hạt cho Tab 1 (Atoms bouncing)
+        const atoms = [];
+        const svg1 = document.getElementById('atom-simulation');
+        const numAtoms = 15;
+        const colors1 = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444'];
+
+        function initAtoms() {
+            for(let i=0; i<numAtoms; i++) {
+                const atom = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+                const r = 8 + Math.random()*5;
+                const rColor = colors1[Math.floor(Math.random() * colors1.length)];
+                atom.setAttribute("r", r);
+                atom.setAttribute("fill", rColor);
+                atom.setAttribute("opacity", "0.8");
+                svg1.appendChild(atom);
+                
+                atoms.push({
+                    el: atom,
+                    x: 50 + Math.random() * 300,
+                    y: 50 + Math.random() * 200,
+                    dx: (Math.random() - 0.5) * 4, // Vận tốc x
+                    dy: (Math.random() - 0.5) * 4, // Vận tốc y
+                    r: r
+                });
+            }
+        }
+
+        // Trạng thái cho Tab 2 (Nucleus vibrating)
+        const nucleons = [];
+        const nucleusGroup = document.getElementById('nucleus-group');
+        const numProtons = 6;
+        const numNeutrons = 6;
+        
+        function initNucleus() {
+            // Gom các hạt thành 1 cụm tròn ở tọa độ (0,0) trong group
+            const total = numProtons + numNeutrons;
+            for(let i=0; i<total; i++) {
+                const isProton = i < numProtons;
+                const nucleon = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+                nucleon.setAttribute("r", 12);
+                nucleon.setAttribute("fill", isProton ? "#ef4444" : "#94a3b8"); // Đỏ cho proton, xám cho neutron
+                if(isProton) {
+                    nucleon.setAttribute("filter", "drop-shadow(0 0 2px #ef4444)");
+                }
+                
+                // Tọa độ random quanh tâm
+                const angle = Math.random() * Math.PI * 2;
+                const radius = Math.random() * 18; // Tập trung ở giữa
+                const cx = Math.cos(angle) * radius;
+                const cy = Math.sin(angle) * radius;
+                
+                nucleon.setAttribute("cx", cx);
+                nucleon.setAttribute("cy", cy);
+                
+                // Thêm dấu + cho proton
+                if(isProton) {
+                    const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+                    text.setAttribute("x", cx);
+                    text.setAttribute("y", cy + 4);
+                    text.setAttribute("font-size", "12");
+                    text.setAttribute("fill", "white");
+                    text.setAttribute("text-anchor", "middle");
+                    text.textContent = "+";
+                    
+                    const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+                    g.appendChild(nucleon);
+                    g.appendChild(text);
+                    nucleusGroup.appendChild(g);
+                    nucleons.push({ el: g, cx: cx, cy: cy });
+                } else {
+                    nucleusGroup.appendChild(nucleon);
+                    nucleons.push({ el: nucleon, cx: cx, cy: cy });
+                }
+            }
+        }
+
+        // Trạng thái cho Tab 3 (Electrons orbiting)
+        const electrons = [];
+        const electronGroup = document.getElementById('electron-group');
+        const orbits = [
+            { rx: 60, ry: 120, rotation: 30, speed: 0.05, angle: 0 },
+            { rx: 60, ry: 120, rotation: -30, speed: 0.03, angle: Math.PI },
+            { rx: 60, ry: 120, rotation: 90, speed: 0.04, angle: Math.PI/2 }
+        ];
+
+        function initElectrons() {
+            orbits.forEach(orbit => {
+                const e = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+                e.setAttribute("r", 4);
+                e.setAttribute("fill", "#60a5fa"); // Xanh dương
+                e.setAttribute("filter", "drop-shadow(0 0 4px #3b82f6)");
+                electronGroup.appendChild(e);
+                electrons.push({ el: e, orbit: orbit });
+            });
+        }
+
+        // Vòng lặp Animation chung
+        let time = 0;
+        function animate() {
+            // Animate Tab 1 (Bouncing)
+            atoms.forEach(atom => {
+                atom.x += atom.dx;
+                atom.y += atom.dy;
+                
+                // Chạm biên (Width 400, Height 300)
+                if (atom.x + atom.r > 400 || atom.x - atom.r < 0) atom.dx *= -1;
+                if (atom.y + atom.r > 300 || atom.y - atom.r < 0) atom.dy *= -1;
+                
+                atom.el.setAttribute("cx", atom.x);
+                atom.el.setAttribute("cy", atom.y);
+            });
+
+            // Animate Tab 2 (Vibrating nucleus)
+            time += 0.1;
+            nucleons.forEach((nucleon, index) => {
+                // Rung động nhẹ ngẫu nhiên dựa trên sine wave
+                const shakeX = Math.sin(time + index) * 1.5;
+                const shakeY = Math.cos(time + index * 2) * 1.5;
+                nucleon.el.setAttribute("transform", `translate(${shakeX}, ${shakeY})`);
+            });
+
+            // Animate Tab 3 (Orbiting electrons)
+            electrons.forEach(item => {
+                item.orbit.angle += item.orbit.speed;
+                // Tính toán tọa độ trên elip (chưa xoay)
+                let x = item.orbit.rx * Math.cos(item.orbit.angle);
+                let y = item.orbit.ry * Math.sin(item.orbit.angle);
+                
+                // Xoay quanh tâm (200, 150)
+                const rad = item.orbit.rotation * Math.PI / 180;
+                const rotatedX = x * Math.cos(rad) - y * Math.sin(rad);
+                const rotatedY = x * Math.sin(rad) + y * Math.cos(rad);
+                
+                item.el.setAttribute("cx", 200 + rotatedX);
+                item.el.setAttribute("cy", 150 + rotatedY);
+            });
+
+            animationId = requestAnimationFrame(animate);
+        }
+
+        function initSimulations() {
+            if(atoms.length === 0) {
+                initAtoms();
+                initNucleus();
+                initElectrons();
+                animate();
+            }
+        }
+    </script>
+</body>
+</html>
